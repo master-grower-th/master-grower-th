@@ -1,0 +1,158 @@
+<div class="card">
+  <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
+    <span class="h1" id="titles">Diaries</span>
+    <span>เขียนโดย: <span class="text-gradient text-primary text-uppercase text-xs font-weight-bold my-2" id="usernames"></span></span>
+    <button type="button" class="btn btn-sm btn-success float-right" onclick="butt.diaries_create()">เริ่มเขียนไดอรี่</button>
+    <button type="button" class="btn btn-sm btn-warning float-right" onclick="butt.diaries_edit()">จัดการไดอรี่</button>
+    <br>
+  </div>
+
+  <div class="card-body pt-2">
+    <div class="" id="data_here1">
+      <div class="col-md-3">
+        <b>พันธุ์:</b> Orange Sherbet<br>
+        <b>บรีดเดอร์:</b> Fastbud<br>
+        <b>ประเภท:</b> Autoflower<br>
+      </div>
+      <div class="col-md-3">
+        <b>ไฟ:</b> HLG240<br>
+        <b>วัตไฟ:</b> 240<br>
+      </div>
+      <div class="col-md-3">
+        <b>สถานที่ปลูก:</b> Indoor<br>
+        <b>วัสดุปลูก:</b> ขุยมะพร้าว<br>
+      </div>
+      <div class="col-md-3">
+        <b>ปุ๋ยทำใบ:</b> Floraflex<br>
+        <b>ปุ๋ยทำดอก:</b> Floraflex<br>
+      </div>
+    </div>
+    <hr>
+    <div class="text-center" id="weeker">
+      <button class="badge badge-pill badge-lg bg-gradient-info"style="color:white;border:0px;">
+        <span>WEEK</span><br>
+        <span style="font-size:30px;">0</span>
+      </button>
+      <button class="badge badge-pill badge-lg bg-gradient-success"style="color:white;border:0px;">
+        <span>WEEK</span><br>
+        <span style="font-size:30px;">1</span>
+      </button>
+      <button class="badge badge-pill badge-lg bg-gradient-warning"style="color:white;border:0px;">
+        <span>WEEK</span><br>
+        <span style="font-size:30px;">5</span>
+      </button>
+      <button class="badge badge-pill badge-lg bg-gradient-danger"style="color:white;border:0px;">
+        <span>WEEK</span><br>
+        <span style="font-size:30px;">13</span>
+      </button>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-md-6 text-center">
+        <img src="/assets/user_upload/fbsher3_2.png" style="max-height:350px;display: block; margin-left: auto; margin-right: auto;">
+      </div>
+      <div class="col-md-6">
+        <h2>Week 0 - เพาะเมล็ด</h2>
+        <b>EC:</b> 1.0<br>
+        <b>PPM:</b> 500 PPM<br>
+        <b>เทคนิค:</b> LST<br>
+        <b>ชั่วโมงไฟ:</b> 24 ชั่วโมง<br>
+        <b>ความสูงต้น:</b> 0 cm<br>
+        <b>อุณภูมิ:</b> 28 c<br>
+        <b>ความชื้น:</b> 80 %<br>
+        <b>ขนาดกระถาง:</b> 1 Gallon<br>
+        <b>ความแรงไฟ:</b> 40 %<br>
+        <b>ความคิดเห็นผู้ปลูก:</b> ยังบ่ได้เพาะเลยซองก็ยังบ่ได้แกะเห้อออออ<br>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  setTimeout(() => {
+    diaries_show2.diaries_reader();
+    diaries_show2.diaries_weeker();
+  }, 2);
+  var diaries_show2 = {
+    diaries_reader: () => {
+              $.get(route_address+'/api/diaries_read?id='+getUrlParameter('id'), function(data, textStatus, xhr) {
+                  if (data.status) {
+                    console.log(data)
+                    document.getElementById("data_here1").innerHTML = ``;
+                        items = data.items[0];
+                        $("#titles").text(items.title)
+                        $("#usernames").text(items.username)
+                        let medium
+                        let indoor
+                        let seed_type
+                        if(items.seed_type == 1) {
+                          seed_type = "Autoflower"
+                        }else{
+                          seed_type = "Photoperiod"
+                        }
+                        if(items.indoor == 1) {
+                          indoor = "Indoor"
+                        }else{
+                          indoor = "Outdoor"
+                        }
+                        if(items.medium == 1) {
+                          medium = "ดิน"
+                        } else if(items.medium == 2) {
+                          medium = "ขุยมะพร้าว"
+                        } else if(items.medium == 2) {
+                          medium = "ไฮโดรโปรนิค"
+                        } else {
+                          medium = "อื่นๆ"
+                        }
+                            let div_item = document.createElement("div");
+                            div_item.setAttribute("class","row")
+                            div_item.innerHTML = `<div class="col-md-3">
+        <b>พันธุ์:</b> `+ items.strain +`<br>
+        <b>บรีดเดอร์:</b> `+ items.breeder +`<br>
+        <b>ประเภท:</b> `+ seed_type +`
+      </div>
+      <div class="col-md-3">
+        <b>ไฟ:</b> `+ items.light +`<br>
+        <b>วัตไฟ:</b> `+ items.watt +`<br>
+      </div>
+      <div class="col-md-3">
+        <b>สถานที่ปลูก:</b> `+ indoor +`<br>
+        <b>วัสดุปลูก:</b> `+ medium +`<br>
+      </div>
+      <div class="col-md-3">
+        <b>ปุ๋ยทำใบ:</b> `+ items.veg_nutrient +`<br>
+        <b>ปุ๋ยทำดอก:</b> `+ items.bloom_nutrient +`<br>
+      </div>`;
+                            document.getElementById("data_here1").append(div_item);
+                  } else {
+                  }
+              });
+          },
+          diaries_weeker: () => {
+              $.get(route_address+'/api/diaries_week?id='+getUrlParameter('id'), function(data, textStatus, xhr) {
+                  if (data.status) {
+                    document.getElementById("weeker").innerHTML = ``;
+                        items = data.items;
+                        for (var i = 0; i < items.length; i++) {
+                          let color;
+                          if(items[i].stage == 0) {
+                            color = "info"
+                          } else if(items[i].stage == 1) {
+                            color = "success"
+                          } else if(items[i].stage == 2) {
+                            color = "warning"
+                          } else {
+                            color = "danger"
+                          }
+                            let div_item = document.createElement("button");
+                            div_item.setAttribute("class","badge badge-pill badge-lg bg-gradient-"+color)
+                            div_item.setAttribute("style","color:white;border:0px;")
+                            div_item.innerHTML = `<span>WEEK</span><br>
+                              <span style="font-size:30px;">`+ items[i].week +`</span>`;
+                            document.getElementById("weeker").append(div_item);
+                        }
+                  } else {
+                  }
+              });
+          },
+  }
+</script>

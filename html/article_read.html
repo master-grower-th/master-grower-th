@@ -1,0 +1,37 @@
+<div class="card">
+  <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
+    <img width="100%" id="images" class="img-cover2 border-radius-lg">
+    <h1 id="titles"></h1>
+  </div>
+
+  <div class="card-body pt-2">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-12 col-lg-12">
+        <p id="texts"></p>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  setTimeout(() => {
+    at_show2.at_reader();
+  }, 2);
+  var at_show2 = {
+    at_reader: () => {
+              $.get(route_address+'/api/at_read?id='+getUrlParameter('id'), function(data, textStatus, xhr) {
+                  if (data.status) {
+                    console.log(data)
+                      items = data.items[0];
+                      $("#titles").text(items.title)
+                      $("#images").attr("src",`assets/user_upload/`+ items.image +``);
+                      var $geek = $( "#texts" ),
+                      str = "A <b>computer science portal</b> for <b>geeks</b>",
+                      html = jQuery.parseHTML( items.text ),
+                      nodeNames = [];
+                      $geek.append( html );
+                  } else {
+                  }
+              });
+          },
+  }
+</script>

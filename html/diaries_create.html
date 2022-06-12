@@ -1,0 +1,121 @@
+<div class="card">
+    <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
+      <h1>สร้างไดอรี่</h1>
+    </div>
+
+    <div class="card-body pt-2">
+        <div class="form-group">
+            <label for="diaries_create_title">ใส่ชื่อไดอรี่</label>
+            <input type="text" class="form-control" id="diaries_create_title">
+          </div>
+          <div class="row">
+            <div class="col-md-2">
+              <div class="form-group">
+                  <label for="exampleFormControlSelect1">Indoor / Outdoor?</label>
+                  <select class="form-control" id="diaries_create_type">
+                    <option value="1">Indoor</option>
+                    <option value="2">Outdoor</option>
+                  </select>
+                </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+                <label for="exampleFormControlSelect1">ประเภทของเมล็ด</label>
+                <select class="form-control" id="diaries_seed_type">
+                  <option value="1">Autoflower</option>
+                  <option value="2">Photoperiod</option>
+                </select>
+              </div>
+        </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="diaries_create_strain">ชื่อสายพันธุ์</label>
+                <input type="text" class="form-control" id="diaries_create_strain">
+                </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="diaries_create_breeder">บรีดเดอร์ (ไม่ทราบไม่ใส่ก็ได้)</label>
+              <input type="text" class="form-control" id="diaries_create_breeder">
+              </div>
+        </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                  <label for="diaries_create_light">ชื่อไฟ</label>
+                  <input type="text" class="form-control" id="diaries_create_light">
+                  </div>
+            </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="diaries_create_watt">วัตของไฟที่ใช้</label>
+              <input type="text" class="form-control" id="diaries_create_watt">
+              </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="diaries_create_medium">วัสดุปลูก</label>
+            <select class="form-control" id="diaries_create_medium">
+              <option value="1">ดิน</option>
+            <option value="2">ขุยมะพร้าว</option>
+            <option value="3">ไฮโดรโปนิค</option>
+            <option value="4">ร็อควู</option>
+            <option value="5">อื่นๆ</option>
+            </select>
+            </div>
+      </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="diaries_create_veg">ปุ๋ยทำใบ</label>
+                <input type="text" class="form-control" id="diaries_create_veg">
+                </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="diaries_create_bloom">ปุ๋ยทำดอก</label>
+              <input type="text" class="form-control" id="diaries_create_bloom">
+              </div>
+        </div>
+        <div class="col-md-4">
+          <iframe name="hidden_upload" id="hidden_upload" style="display: none;"></iframe>
+          <label for="customFileLang">เลือกรูปภาพหน้าปก</label>
+          <form id="uploaders" action="api/uploading" method="post"enctype="multipart/form-data"  target="hidden_upload">
+            <div class="custom-file">
+            <input type="file" class="custom-file-input" name="file" id="diaries_create_image">
+          </div>
+            </form>
+        </form>
+      </div>
+          </div>
+          <p>*ข้อมูลเพิ่มเติมให้ใส่ในแต่ละอาทิตย์ที่อัพเดต*</p>
+          <button type="button" class="btn btn-success btn-lg w-100" onclick="di_app.diaries_create()">สร้างไดอรี่</button>
+    </div>
+  </div>
+  <script>
+    var di_app = {
+      diaries_create: () => {
+        let diaries_title = $('#diaries_create_title').val();
+        let diaries_type = $('#diaries_create_type').val();
+        let diaries_strain = $('#diaries_create_strain').val();
+        let diaries_breeder = $('#diaries_create_breeder').val();
+        let diaries_light = $('#diaries_create_light').val();
+        let diaries_watt = $('#diaries_create_watt').val();
+        let diaries_medium = $('#diaries_create_medium').val();
+        let diaries_veg = $('#diaries_create_veg').val();
+        let diaries_bloom = $('#diaries_create_bloom').val();
+        let diaries_seed_type = $('#diaries_seed_type').val();
+        let diaries_image = $('#diaries_create_image').val().replace(/.*(\/|\\)/, '');
+            $.get(route_address+'/api/diaries_create?fuckcook=' + getCookie("FUCKCOOK") + '&title=' + diaries_title + '&strain=' + diaries_strain + '&breeder=' + diaries_breeder + '&indoor=' + diaries_type + '&light=' + diaries_light + '&watt=' + diaries_watt + '&medium=' + diaries_medium + '&veg=' + diaries_veg + '&bloom=' + diaries_bloom + '&image=' + diaries_image + '&seed_type=' + diaries_seed_type, function(data, textStatus, xhr) {
+                if (data.status) {
+                  document.getElementById("uploaders").submit();
+                  toastem.show('success', "สร้างไดอรี่ไม้เรียบร้อย");
+                } else {
+                  toastem.show('danger', "กรุณาเข้าสู่ระบบก่อนสร้างไดอรี่ไม้");
+                }
+            });
+      }
+    }
+  </script>

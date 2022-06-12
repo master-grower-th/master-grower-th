@@ -1,0 +1,106 @@
+<div class="card">
+    <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
+      <h1>ลงขายดอกไม้</h1>
+    </div>
+
+    <div class="card-body pt-2">
+        <div class="form-group">
+            <div class="row">
+              <div class="col-md-4">
+                <label for="flower_create_breeder">ใส่ชื่อค่าย</label>
+                <input type="text" class="form-control" id="flower_create_breeder" placeholder="ใส่ชื่อค่าย">
+              </div>
+              <div class="col-md-4">
+                <label for="flower_create_strain">ใส่ชื่อดอก</label>
+                <input type="text" class="form-control" id="flower_create_strain" placeholder="ใส่ชื่อดอก">
+              </div>
+              <div class="col-md-4">
+                <iframe name="hidden_upload" id="hidden_upload" style="display: none;"></iframe>
+                <label for="customFileLang">เลือกรูปภาพ</label>
+                <form id="uploaders" action="api/uploading" method="post"enctype="multipart/form-data"  target="hidden_upload">
+                  <div class="custom-file">
+                  <input type="file" class="custom-file-input" name="file" id="flower_create_image">
+                </div>
+                  </form>
+              </form>
+            </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <label for="flower_create_g">ราคาต่อกรัม</label>
+              <input type="number" class="form-control" id="flower_create_g" placeholder="ราคาต่อกรัม">
+            </div>
+            <div class="col-md-4">
+              <label for="flower_create_oz">ราคาต่อออนซ์ (30 กรัม)</label>
+              <input type="number" class="form-control" id="flower_create_oz" placeholder="ราคาต่อออนซ์ (30 กรัม)">
+            </div>
+            <div class="col-md-4">
+              <label for="flower_create_100">ราคาต่อขีด (100 กรัม)</label>
+              <input type="number" class="form-control" id="flower_create_100" placeholder="ราคาต่อขีด (100 กรัม)">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">ประเภทการปลูก</label>
+                <select class="form-control" id="flower_create_type">
+                  <option value="1">Indoor</option>
+                  <option value="2">Outdoor</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <label for="flower_create_thc">ปริมาณ THC %</label>
+              <input type="number" class="form-control" id="flower_create_thc" placeholder="ปริมาณ THC">
+            </div>
+            <div class="col-md-3">
+              <label for="flower_create_cbd">ปริมาณ CBD %</label>
+              <input type="number" class="form-control" id="flower_create_cbd" placeholder="ปริมาณ CBD">
+            </div>
+            <div class="col-md-3">
+              <label for="flower_create_ship">ค่าจัดส่ง</label>
+              <input type="number" class="form-control" id="flower_create_ship" placeholder="ปริมาณ CBD">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <label for="flower_create_info">รายละเอียดเพิ่มเติม</label>
+              <input type="text" class="form-control" id="flower_create_info" placeholder="รายละเอียดเพิ่มเติม">
+            </div>
+            <div class="col-md-6">
+              <label for="flower_create_contact">ที่สำหรับลูกค้าติดต่อสั่งซื้อ (Line / Facebook ได้ทุกช่องทางนะครับ)</label>
+              <input type="text" class="form-control" id="flower_create_contact" placeholder="รายละเอียดเพิ่มเติม">
+            </div>
+          </div>
+          <br>
+          <button type="button" class="btn btn-success btn-lg w-100" onclick="fw.flower_create()">สร้างรายการขาย</button>
+    </div>
+  </div>
+  <script>
+
+    var fw = {
+      flower_create: () => {
+        let flower_breeder = $('#flower_create_breeder').val();
+        let flower_strain = $('#flower_create_strain').val();
+        let flower_g = $('#flower_create_g').val();
+        let flower_oz = $('#flower_create_oz').val();
+        let flower_100 = $('#flower_create_100').val();
+        let flower_thc = $('#flower_create_thc').val();
+        let flower_cbd = $('#flower_create_cbd').val();
+        let flower_ship = $('#flower_create_ship').val();
+        let flower_info = $('#flower_create_info').val();
+        let flower_contact = $('#flower_create_contact').val();
+        let flower_type = $('#flower_create_type').val();
+        let flower_image = $('#flower_create_image').val().replace(/.*(\/|\\)/, '');
+            $.get(route_address+'/api/flower_create?fuckcook=' + getCookie("FUCKCOOK") + '&breeder=' + flower_breeder + '&strain=' + flower_strain + '&g=' + flower_g + '&oz=' + flower_oz + '&_100=' + flower_100 + '&thc=' + flower_thc + '&cbd=' + flower_cbd + '&ship=' + flower_ship + '&info=' + flower_info + '&contact=' + flower_contact  + '&type=' + flower_type  + '&image=' + flower_image , function(data, textStatus, xhr) {
+                if (data.status) {
+                  document.getElementById("uploaders").submit();
+                  toastem.show('success', "ลงขายดอกไม้เรียบร้อย");
+                } else {
+                  toastem.show('danger', "กรุณาเข้าสู่ระบบก่อนลงขายดอกไม้");
+                }
+            });
+        },
+    }
+  </script>

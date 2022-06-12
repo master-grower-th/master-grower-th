@@ -1,0 +1,40 @@
+#toastem {
+  position: fixed;
+  z-index: 999;
+  top: 12px;
+  right: 12px;
+}
+
+.notification {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  margin-top: 10px;
+  margin-right: 10px;
+  padding: 20px;
+  width: 300px;
+  border-radius: 3px;
+  color: white;
+  right: -400px;
+  /*box-shadow: 0px 1px 5px #bbbbbb;*/
+}
+
+.normal {
+  background: #3c3b3b;
+}
+
+.success {
+  background: #44be75;
+}
+
+.danger {
+  background: #c33c3c;
+}
+
+.warning {
+  background: #c3943c;
+}
+
+.info {
+  background: #3ca8c3;
+}

@@ -1,0 +1,115 @@
+<div class="card">
+    <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
+      <h1>สร้างบทความ</h1>
+    </div>
+
+    <div class="card-body pt-2">
+        <div class="form-group">
+            <label for="article_create_title">ใส่หัวข้อ</label>
+            <input type="text" class="form-control" id="article_create_title" placeholder="ใส่หัวข้อ">
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1">เลือกหมวดหมู่</label>
+                    <select class="form-control" id="article_create_type">
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                    </select>
+                  </div>
+            </div>
+            <div class="col-md-6">
+              <iframe name="hidden_upload" id="hidden_upload" style="display: none;"></iframe>
+              <label for="customFileLang">เลือกรูปภาพ</label>
+              <form id="uploaders" action="api/uploading" method="post"enctype="multipart/form-data"  target="hidden_upload">
+                <div class="custom-file">
+                <input type="file" class="custom-file-input" name="file" id="article_create_image">
+              </div>
+                </form>
+            </form>
+          </div>
+          </div>
+          <script>
+            $('#article_create_text').keydown(function(e){
+    if(e.keyCode === 13){
+      insertAtCaret('article_create_text', '<br>\n');return false;
+      var txtArea;
+
+    txtArea = document.getElementById("article_create_text");
+    txtArea.value += text + '\r\n';
+     }  
+});
+          </script>
+        <div class="form-group">
+            <label for="article_create_text">เขียนบทความได้ที่นี่</label><br>
+            <button class="btn btn-sm btn-warning" onclick="insertAtCaret('article_create_text', '<br>');return false;">เว้นบรรทัด</button>
+            <button class="btn btn-sm btn-warning" onclick="insertAtCaret('article_create_text', '<b>ใส่ข้อความตัวหนาที่นี่</b>');return false;">ตัวหนา</button>
+            <button class="btn btn-sm btn-warning" onclick="insertAtCaret('article_create_text', '<h4>ใส่ข้อความหัวข้อที่นี่<h4>');return false;">หัวข้อ</button>
+            <button class="btn btn-sm btn-warning" onclick="insertAtCaret('article_create_text', '<code>ใส่ข้อความสีชมพูที่นี่</code>');return false;">สีชมพู</button>
+            <br><textarea rows="20" class="form-control" id="article_create_text" rows="3"></textarea>
+          </div>
+          <button type="button" class="btn btn-success btn-lg w-100" onclick="arti.article_create()">สร้างบทความ</button>
+    </div>
+  </div>
+  <script>
+
+    var arti = {
+      article_create: () => {
+        let at_title = $('#article_create_title').val();
+        let at_type = $('#article_create_type').val();
+        let at_image = $('#article_create_image').val().replace(/.*(\/|\\)/, '');
+        let at_text = $('#article_create_text').val();
+        let new_text = at_text.replace(/(\r\n|\n|\r)/gm, "");
+        console.log(at_title)
+            $.get(route_address+'/api/article_create?fuckcook=' + getCookie("FUCKCOOK") + '&title=' + at_title + '&type=' + at_type + '&image=' + at_image + '&text=' + new_text, function(data, textStatus, xhr) {
+                if (data.status) {
+                  document.getElementById("uploaders").submit();
+                  toastem.show('success', "สร้างบทความเรียบร้อย");
+                } else {
+                  toastem.show('danger', "กรุณาเข้าสู่ระบบก่อนเขียนบทความ");
+                }
+            });
+        },
+    }
+    function insertAtCaret(areaId, text) {
+  var txtarea = document.getElementById(areaId);
+  if (!txtarea) {
+    return;
+  }
+
+  var scrollPos = txtarea.scrollTop;
+  var strPos = 0;
+  var br = ((txtarea.selectionStart || txtarea.selectionStart == '0') ?
+    "ff" : (document.selection ? "ie" : false));
+  if (br == "ie") {
+    txtarea.focus();
+    var range = document.selection.createRange();
+    range.moveStart('character', -txtarea.value.length);
+    strPos = range.text.length;
+  } else if (br == "ff") {
+    strPos = txtarea.selectionStart;
+  }
+
+  var front = (txtarea.value).substring(0, strPos);
+  var back = (txtarea.value).substring(strPos, txtarea.value.length);
+  txtarea.value = front + text + back;
+  strPos = strPos + text.length;
+  if (br == "ie") {
+    txtarea.focus();
+    var ieRange = document.selection.createRange();
+    ieRange.moveStart('character', -txtarea.value.length);
+    ieRange.moveStart('character', strPos);
+    ieRange.moveEnd('character', 0);
+    ieRange.select();
+  } else if (br == "ff") {
+    txtarea.selectionStart = strPos;
+    txtarea.selectionEnd = strPos;
+    txtarea.focus();
+  }
+
+  txtarea.scrollTop = scrollPos;
+}
+  </script>
