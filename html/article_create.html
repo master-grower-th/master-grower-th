@@ -67,7 +67,7 @@
             $.get(route_address+'/api/article_create?fuckcook=' + getCookie("FUCKCOOK") + '&title=' + at_title + '&type=' + at_type + '&image=' + at_image + '&text=' + new_text, function(data, textStatus, xhr) {
                 if (data.status) {
                   document.getElementById("uploaders").submit();
-                  toastem.show('success', "สร้างบทความเรียบร้อย");
+                  toastem.show('success', "เขียนบทความเรียบร้อย");
                 } else {
                   toastem.show('danger', "กรุณาเข้าสู่ระบบก่อนเขียนบทความ");
                 }
