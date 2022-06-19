@@ -74,33 +74,8 @@
             </div>
           </div>
           <br>
-          <button type="button" class="btn btn-success btn-lg w-100" onclick="fw.flower_create()">สร้างรายการขาย</button>
+          <button type="button" class="btn btn-success btn-lg w-100" onclick="apps.flower_create()">สร้างรายการขาย</button>
     </div>
   </div>
   <script>
-
-    var fw = {
-      flower_create: () => {
-        let flower_breeder = $('#flower_create_breeder').val();
-        let flower_strain = $('#flower_create_strain').val();
-        let flower_g = $('#flower_create_g').val();
-        let flower_oz = $('#flower_create_oz').val();
-        let flower_100 = $('#flower_create_100').val();
-        let flower_thc = $('#flower_create_thc').val();
-        let flower_cbd = $('#flower_create_cbd').val();
-        let flower_ship = $('#flower_create_ship').val();
-        let flower_info = $('#flower_create_info').val();
-        let flower_contact = $('#flower_create_contact').val();
-        let flower_type = $('#flower_create_type').val();
-        let flower_image = $('#flower_create_image').val().replace(/.*(\/|\\)/, '');
-            $.get(route_address+'/api/flower_create?fuckcook=' + getCookie("FUCKCOOK") + '&breeder=' + flower_breeder + '&strain=' + flower_strain + '&g=' + flower_g + '&oz=' + flower_oz + '&_100=' + flower_100 + '&thc=' + flower_thc + '&cbd=' + flower_cbd + '&ship=' + flower_ship + '&info=' + flower_info + '&contact=' + flower_contact  + '&type=' + flower_type  + '&image=' + flower_image , function(data, textStatus, xhr) {
-                if (data.status) {
-                  document.getElementById("uploaders").submit();
-                  toastem.show('success', "ลงขายดอกไม้เรียบร้อย");
-                } else {
-                  toastem.show('danger', "กรุณาเข้าสู่ระบบก่อนลงขายดอกไม้");
-                }
-            });
-        },
-    }
   </script>

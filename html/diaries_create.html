@@ -91,31 +91,8 @@
       </div>
           </div>
           <p>*ข้อมูลเพิ่มเติมให้ใส่ในแต่ละอาทิตย์ที่อัพเดต*</p>
-          <button type="button" class="btn btn-success btn-lg w-100" onclick="di_app.diaries_create()">สร้างไดอรี่</button>
+          <button type="button" class="btn btn-success btn-lg w-100" onclick="apps.diaries_create()">สร้างไดอรี่</button>
     </div>
   </div>
   <script>
-    var di_app = {
-      diaries_create: () => {
-        let diaries_title = $('#diaries_create_title').val();
-        let diaries_type = $('#diaries_create_type').val();
-        let diaries_strain = $('#diaries_create_strain').val();
-        let diaries_breeder = $('#diaries_create_breeder').val();
-        let diaries_light = $('#diaries_create_light').val();
-        let diaries_watt = $('#diaries_create_watt').val();
-        let diaries_medium = $('#diaries_create_medium').val();
-        let diaries_veg = $('#diaries_create_veg').val();
-        let diaries_bloom = $('#diaries_create_bloom').val();
-        let diaries_seed_type = $('#diaries_seed_type').val();
-        let diaries_image = $('#diaries_create_image').val().replace(/.*(\/|\\)/, '');
-            $.get(route_address+'/api/diaries_create?fuckcook=' + getCookie("FUCKCOOK") + '&title=' + diaries_title + '&strain=' + diaries_strain + '&breeder=' + diaries_breeder + '&indoor=' + diaries_type + '&light=' + diaries_light + '&watt=' + diaries_watt + '&medium=' + diaries_medium + '&veg=' + diaries_veg + '&bloom=' + diaries_bloom + '&image=' + diaries_image + '&seed_type=' + diaries_seed_type, function(data, textStatus, xhr) {
-                if (data.status) {
-                  document.getElementById("uploaders").submit();
-                  toastem.show('success', "สร้างไดอรี่ไม้เรียบร้อย");
-                } else {
-                  toastem.show('danger', "กรุณาเข้าสู่ระบบก่อนสร้างไดอรี่ไม้");
-                }
-            });
-      }
-    }
   </script>

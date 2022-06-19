@@ -51,29 +51,10 @@
             <button class="btn btn-sm btn-warning" onclick="insertAtCaret('article_create_text', '<code>ใส่ข้อความสีชมพูที่นี่</code>');return false;">สีชมพู</button>
             <br><textarea rows="20" class="form-control" id="article_create_text" rows="3"></textarea>
           </div>
-          <button type="button" class="btn btn-success btn-lg w-100" onclick="arti.article_create()">สร้างบทความ</button>
+          <button type="button" class="btn btn-success btn-lg w-100" onclick="apps.article_create()">สร้างบทความ</button>
     </div>
   </div>
   <script>
-
-    var arti = {
-      article_create: () => {
-        let at_title = $('#article_create_title').val();
-        let at_type = $('#article_create_type').val();
-        let at_image = $('#article_create_image').val().replace(/.*(\/|\\)/, '');
-        let at_text = $('#article_create_text').val();
-        let new_text = at_text.replace(/(\r\n|\n|\r)/gm, "");
-        console.log(at_title)
-            $.get(route_address+'/api/article_create?fuckcook=' + getCookie("FUCKCOOK") + '&title=' + at_title + '&type=' + at_type + '&image=' + at_image + '&text=' + new_text, function(data, textStatus, xhr) {
-                if (data.status) {
-                  document.getElementById("uploaders").submit();
-                  toastem.show('success', "เขียนบทความเรียบร้อย");
-                } else {
-                  toastem.show('danger', "กรุณาเข้าสู่ระบบก่อนเขียนบทความ");
-                }
-            });
-        },
-    }
     function insertAtCaret(areaId, text) {
   var txtarea = document.getElementById(areaId);
   if (!txtarea) {
