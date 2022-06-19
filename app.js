@@ -221,6 +221,19 @@ app.get('/api/diaries_week', (req, res, next) => {
 
   }
 })
+app.get('/api/diaries_week2/', (req, res, next) => {
+  let ids = req.query.id
+  let weeks = req.query.week
+  try {
+    async function main() {
+      let running = await diaries_con.diaries_week2(ids, weeks)
+      res.send({ status: true, items: running })
+    }
+    main()
+  } catch (error) {
+
+  }
+})
 app.get('/api/article_create', (req, res, next) => {
   let fuckcook = req.query.fuckcook
   let title = req.query.title

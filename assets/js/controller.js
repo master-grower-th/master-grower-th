@@ -362,7 +362,7 @@ var apps = {
         if (weeks == "") {
             weeks == 0;
         }
-        $.get(route_address + '/api/diaries_week?id=' + getUrlParameter('id') + '&week=' + weeks, function (data, textStatus, xhr) {
+        $.get(route_address + '/api/diaries_week2?id=' + getUrlParameter('id') + '&week=' + weeks, function (data, textStatus, xhr) {
             if (data.status) {
                 document.getElementById("week_show").innerHTML = ``;
                 items = data.items[0];
@@ -416,6 +416,34 @@ var apps = {
                     </div>`;
                     document.getElementById("diaries_list").append(div_item);
                 }
+            } else {
+            }
+        });
+    },
+    add_week: (weeks) => {
+        $.get(route_address + '/api/add_week', {}, function (data, textStatus, xhr) {
+            if (data.status) {
+                document.getElementById("week_show").innerHTML = ``;
+                items = data.items[0];
+                let div_item2 = document.createElement("div");
+                div_item2.setAttribute("class", "row")
+                div_item2.innerHTML = `<div class="col-md-6 text-center">
+                <img src="/assets/user_upload/fbsher3_2.png" style="max-height:350px;display: block; margin-left: auto; margin-right: auto;">
+                </div>
+                <div class="col-md-6">
+                    <h2>Week `+ items.week + ` - เพาะเมล็ด</h2>
+                    <b>EC:</b> `+ items.ec + `<br>
+                    <b>PPM:</b> `+ items.ppm + ` PPM<br>
+                    <b>เทคนิค:</b> `+ items.tech + `<br>
+                    <b>ชั่วโมงไฟ:</b> `+ items.hours + ` ชั่วโมง<br>
+                    <b>ความสูงต้น:</b> `+ items.height + ` cm<br>
+                    <b>อุณภูมิ:</b> `+ items.temp + ` c<br>
+                    <b>ความชื้น:</b> `+ items.rh + ` %<br>
+                    <b>ขนาดกระถาง:</b> `+ items.pot + ` Gallon<br>
+                    <b>ความแรงไฟ:</b> `+ items.percent + ` %<br>
+                    <b>ความคิดเห็นผู้ปลูก:</b> `+ items.comment + `<br>
+                </div>`;
+                document.getElementById("week_show").append(div_item2);
             } else {
             }
         });
