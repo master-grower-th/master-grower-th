@@ -127,6 +127,7 @@ var butt = {
         }
     }
 }
+let user_diaries
 var apps = {
     register: () => {
         let username = $('#reg_username').val();
@@ -149,7 +150,7 @@ var apps = {
             if (data.status) {
                 setCookie("FUCKCOOK", data.cookie, 0.5)
                 setCookie("jwt", data.token, 0.5)
-                setCookie("steam_name", data.steam_name, 0.5)
+                setCookie("usernames", data.user, 0.5)
                 toastem.show('success', "Login success");
                 var socket = io({
                     reconnection: true,
@@ -266,6 +267,7 @@ var apps = {
                 console.log(data)
                 document.getElementById("data_here1").innerHTML = ``;
                 items = data.items[0];
+                user_diaries = items.username
                 $("#titles").text(items.title)
                 $("#usernames").text(items.username)
                 let medium
@@ -321,6 +323,9 @@ var apps = {
                 document.getElementById("weeker").innerHTML = ``;
                 items = data.items;
                 for (var i = 0; i < items.length; i++) {
+                    if (i == 0) {
+                        apps.diaries_info(items[i].week)
+                    }
                     let color;
                     if (items[i].stage == 0) {
                         color = "info"
@@ -334,10 +339,52 @@ var apps = {
                     let div_item = document.createElement("button");
                     div_item.setAttribute("class", "badge badge-pill badge-lg bg-gradient-" + color)
                     div_item.setAttribute("style", "color:white;border:0px;")
+                    div_item.setAttribute("onclick", "apps.diaries_info(" + items[i].week + ")")
                     div_item.innerHTML = `<span>WEEK</span><br>
                         <span style="font-size:30px;">`+ items[i].week + `</span>`;
                     document.getElementById("weeker").append(div_item);
                 }
+                setTimeout(() => {
+                    let div_item2 = document.createElement("button");
+                    div_item2.setAttribute("class", "badge badge-pill badge-lg bg-gradient-primary")
+                    div_item2.setAttribute("style", "color:white;border:0px;")
+                    div_item2.innerHTML = `<span>เพิ่มวิค</span><br>
+                        <span style="font-size:30px;">+</span>`;
+                    if (getCookie("usernames") == user_diaries) {
+                        document.getElementById("weeker").append(div_item2);
+                    }
+                }, 2000);
+            } else {
+            }
+        });
+    },
+    diaries_info: (weeks) => {
+        if (weeks == "") {
+            weeks == 0;
+        }
+        $.get(route_address + '/api/diaries_week?id=' + getUrlParameter('id') + '&week=' + weeks, function (data, textStatus, xhr) {
+            if (data.status) {
+                document.getElementById("week_show").innerHTML = ``;
+                items = data.items[0];
+                let div_item2 = document.createElement("div");
+                div_item2.setAttribute("class", "row")
+                div_item2.innerHTML = `<div class="col-md-6 text-center">
+                <img src="/assets/user_upload/fbsher3_2.png" style="max-height:350px;display: block; margin-left: auto; margin-right: auto;">
+                </div>
+                <div class="col-md-6">
+                    <h2>Week `+ items.week + ` - เพาะเมล็ด</h2>
+                    <b>EC:</b> `+ items.ec + `<br>
+                    <b>PPM:</b> `+ items.ppm + ` PPM<br>
+                    <b>เทคนิค:</b> `+ items.tech + `<br>
+                    <b>ชั่วโมงไฟ:</b> `+ items.hours + ` ชั่วโมง<br>
+                    <b>ความสูงต้น:</b> `+ items.height + ` cm<br>
+                    <b>อุณภูมิ:</b> `+ items.temp + ` c<br>
+                    <b>ความชื้น:</b> `+ items.rh + ` %<br>
+                    <b>ขนาดกระถาง:</b> `+ items.pot + ` Gallon<br>
+                    <b>ความแรงไฟ:</b> `+ items.percent + ` %<br>
+                    <b>ความคิดเห็นผู้ปลูก:</b> `+ items.comment + `<br>
+                </div>`;
+                document.getElementById("week_show").append(div_item2);
             } else {
             }
         });

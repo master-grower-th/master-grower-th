@@ -34,7 +34,7 @@ const login = (username, password) => {
                     user: results[0].username,
                     hash: hash
                 }, jwtSecret, { expiresIn: '420h' })
-                return resolve({ status: true, id: results[0].id, user: results[0].username, steam_name: results[0].username, cookie: hash, token: token })
+                return resolve({ status: true, id: results[0].id, user: results[0].username, cookie: hash, token: token })
             } else {
                 users[hash] = results[0]
                 let token = jwt.sign({
@@ -43,7 +43,7 @@ const login = (username, password) => {
                     hash: hash
                 }, jwtSecret, { expiresIn: '420h' })
                 users[hash].token = token
-                return resolve({ status: true, id: results[0].id, user: results[0].username, steam_name: results[0].username, cookie: hash, token: token })
+                return resolve({ status: true, id: results[0].id, user: results[0].username, cookie: hash, token: token })
             }
 
 

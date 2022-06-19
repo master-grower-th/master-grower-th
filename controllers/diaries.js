@@ -45,8 +45,18 @@ const diaries_read = (ids) => {
 };
 const diaries_week = (ids) => {
     return new Promise((resolve, reject) => {
-        db.query("SELECT * FROM diaries_week WHERE diaries_id = ?", [
+        db.query("SELECT * FROM diaries_week WHERE diaries_id = ? ORDER BY week ASC", [
             ids,
+        ]).then((results) => {
+            return resolve(results)
+        });
+    })
+};
+const diaries_week2 = (ids, weeks) => {
+    return new Promise((resolve, reject) => {
+        db.query("SELECT * FROM diaries_week WHERE diaries_id = ? AND week = ?", [
+            ids,
+            weeks
         ]).then((results) => {
             return resolve(results)
         });
@@ -56,6 +66,7 @@ const diaries_week = (ids) => {
 exports.diaries_list = diaries_list;
 exports.diaries_read = diaries_read;
 exports.diaries_week = diaries_week;
+exports.diaries_week2 = diaries_week2;
 
 exports.diaries_create = diaries_create;
 //exports.article_view = article_view;
