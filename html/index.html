@@ -96,11 +96,11 @@
           <h6 class="navbar-heading p-0 text-muted">
             <span class="docs-normal">Ads</span>
           </h6>
-          <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+          <div id="carouselExampleIndicators2" class="carousel slide">
             <ol class="carousel-indicators">
-              <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-              <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-              <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+              <li data-target="#carouselExampleIndicators2" data-slide-to="0" class="active"></li>
+              <li data-target="#carouselExampleIndicators2" data-slide-to="1"></li>
+              <li data-target="#carouselExampleIndicators2" data-slide-to="2"></li>
             </ol>
             <div class="carousel-inner">
               <div class="carousel-item active">
@@ -332,6 +332,136 @@
         <div class="modal-body p-0">
           <div class="card" id="strain_info">
             
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="add_week" tabindex="-1" role="dialog" aria-labelledby="add_week" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card" id="">
+            <div class="card-body">
+              <h2 class="font-weight-bolder text-info text-gradient">เพิ่มอาทิตย์</h2> 
+                <div class="row">
+                  <div class="col-md-6">
+                    <label>อาทิตย์ที่</label>
+                    <div class="input-group mb-3">
+                      <input type="number" class="form-control" placeholder="อาทิตย์ที่" id="add_week_week">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label>เพาะเมล็ด / ทำใบ / ทำดอก</label>
+                    <div class="input-group mb-3">
+                      <select class="form-control" id="add_week_stage">
+                        <option value="0">เพาะเมล็ด</option>
+                        <option value="1">ทำใบ</option>
+                        <option value="2">ทำดอก</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label>EC</label>
+                    <div class="input-group mb-3">
+                      <input type="number" class="form-control" placeholder="EC" id="add_week_ec">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label>PPM</label>
+                    <div class="input-group mb-3">
+                      <input type="number" class="form-control" placeholder="PPM" id="add_week_ppm">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label>เทคนิค</label>
+                    <div class="input-group mb-3">
+                      <input type="text" class="form-control" placeholder="เทคนิค" id="add_week_tech">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label>ชั่วโมงไฟ</label>
+                    <div class="input-group mb-3">
+                      <input type="number" class="form-control" placeholder="ชั่วโมงไฟ" id="add_week_hours">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label>ความสูงต้น</label>
+                    <div class="input-group mb-3">
+                      <input type="number" class="form-control" placeholder="ความสูงต้น" id="add_week_height">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label>อุณภูมิ</label>
+                    <div class="input-group mb-3">
+                      <input type="number" class="form-control" placeholder="อุณภูมิ" id="add_week_temp">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label>ความชื้น</label>
+                    <div class="input-group mb-3">
+                      <input type="number" class="form-control" placeholder="ความชื้น" id="add_week_rh">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label>ขนาดกระถาง (แกลลอน)</label>
+                    <div class="input-group mb-3">
+                      <input type="number" class="form-control" placeholder="ขนาดกระถาง (แกลลอน)" id="add_week_pot">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label>ความแรงไฟ (%)</label>
+                    <div class="input-group mb-3">
+                      <input type="number" class="form-control" placeholder="ความแรงไฟ (%)" id="add_week_percent">
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <iframe name="add_week_upload1" id="add_week_upload1" style="display: none;"></iframe>
+                    <label for="customFileLang">เลือกรูปภาพ</label>
+                    <form id="add_week_upload" action="api/uploading" method="post"enctype="multipart/form-data"  target="add_week_upload1">
+                      <div class="custom-file">
+                        <input type="file" class="custom-file-input" name="file" id="add_week_image">
+                      </div>
+                    </form>
+                  </div>
+                  <div class="col-md-6">
+                    <label>ความคิดเห็นผู้ปลูก</label>
+                    <div class="input-group mb-3">
+                      <input type="text" class="form-control" placeholder="ความคิดเห็นผู้ปลูก" id="add_week_comment">
+                    </div>
+                  </div>
+                </div>
+                <div class="text-center">
+                  <button type="button" class="btn btn-round bg-success btn-lg btn-block" onclick="apps.diaries_add_week()">เพิ่มอาทิตย์</button>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="add_week_image2" tabindex="-1" role="dialog" aria-labelledby="add_week_image2" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card" id="">
+            <div class="card-body">
+              <h2 class="font-weight-bolder text-info text-gradient">เพิ่มรูป</h2> 
+                <div class="row">
+                  <div class="col-md-12">
+                    <iframe name="add_week_upload2" id="add_week_upload2" style="display: none;"></iframe>
+                    <label for="customFileLang">เลือกรูปภาพ</label>
+                    <form id="add_week_upload3" action="api/uploading" method="post"enctype="multipart/form-data"  target="add_week_upload2">
+                      <div class="custom-file">
+                        <input type="file" class="custom-file-input" name="file" id="add_week_add_image">
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <div class="text-center">
+                  <button type="button" class="btn btn-round bg-success btn-lg btn-block" onclick="apps.diaries_add_image()">เพิ่มอาทิตย์</button>
+                </div>
+            </div>
           </div>
         </div>
       </div>

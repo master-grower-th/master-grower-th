@@ -146,10 +146,32 @@ textarea {
     padding-left: 2px;
 }
 
+.img-v-center {
+    object-fit: cover;
+    width: 500px;
+    height: 300px;
+}
+
+.c-v-center {
+    width: 500px;
+    height: 300px;
+}
+
 @media only screen and (max-width: 600px) {
     .img-cover3 {
         object-fit: cover;
         width: 100%;
         height: 150px !important;
+    }
+
+    .img-v-center {
+        object-fit: cover;
+        width: 300px;
+        height: 300px;
+    }
+
+    .c-v-center {
+        width: 300px;
+        height: 300px;
     }
 }

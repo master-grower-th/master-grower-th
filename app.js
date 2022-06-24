@@ -11,6 +11,9 @@ const path = require('path');
 const crypto = require("crypto");
 const jwtSecret = "LK(#@$*US{FPO_+!PDKF++!@#)_(I$!(I)!"
 var multer = require('multer')
+const bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 // io.sockets
 //   .on('connection', socketioJwt.authorize({
@@ -102,6 +105,22 @@ async function checking_user(fuckcooking) {
     //console.log(error)
   }
 }
+app.get('/api/checking_fk', (req, res, next) => {
+  let fuckcook = req.query.fuckcook
+  try {
+    async function mega_main() {
+      checking_true = await checking_user(fuckcook)
+      if (checking_true.status == 1) {
+        res.send({ status: true, text: "" })
+      } else {
+        res.send({ status: false, text: "" })
+      }
+    }
+    mega_main()
+  } catch (error) {
+    res.send({ status: false, text: "" })
+  }
+})
 //App controller
 app.get('/api/register', (req, res, next) => {
   let username = req.query.username
@@ -234,12 +253,12 @@ app.get('/api/diaries_week2/', (req, res, next) => {
 
   }
 })
-app.get('/api/article_create', (req, res, next) => {
-  let fuckcook = req.query.fuckcook
-  let title = req.query.title
-  let type = req.query.type
-  let image = req.query.image
-  let text = req.query.text
+app.post('/api/article_create', (req, res, next) => {
+  let fuckcook = req.body.fuckcook
+  let title = req.body.title
+  let type = req.body.type
+  let image = req.body.image
+  let text = req.body.text
   try {
     async function mega_main() {
       checking_true = await checking_user(fuckcook)
@@ -314,6 +333,66 @@ app.get('/api/diaries_create', (req, res, next) => {
           let running = await diaries_con.diaries_create(title, checking_true.username, strain, breeder, indoor, light, watt, medium, veg_nutrient, bloom_nutrient, image, seed_type)
           if (running == 0) res.send({ status: false, text: "สร้างไดอรี่ไม่สำเร็จ" })
           if (running == 1) res.send({ status: true, text: "สร้างไดอรี่สำเร็จ" })
+        }
+        main()
+      } else {
+        res.send({ status: false, text: "Login ก่อนทำการเขียนไดอรี่" })
+      }
+    }
+    mega_main()
+  } catch (error) {
+    res.send({ status: false, text: "Login ก่อนทำการเขียนไดอรี่" })
+  }
+})
+app.get('/api/diaries_add_week', (req, res, next) => {
+  let fuckcook = req.query.fuckcook
+  let ids = req.query.ids
+  let week = req.query.week
+  let stage = req.query.stage
+  let ec = req.query.ec
+  let ppm = req.query.ppm
+  let tech = req.query.tech
+  let hours = req.query.hours
+  let height = req.query.height
+  let temp = req.query.temp
+  let rh = req.query.rh
+  let pot = req.query.pot
+  let percent = req.query.percent
+  let comment = req.query.comment
+  let image = req.query.image
+  try {
+    async function mega_main() {
+      checking_true = await checking_user(fuckcook)
+      if (checking_true.status == 1) {
+        async function main() {
+          console.log(ids, week, stage, ec, ppm, tech, hours, height, temp, rh, pot, percent, comment, image)
+          let running = await diaries_con.diaries_add_week(ids, week, stage, ec, ppm, tech, hours, height, temp, rh, pot, percent, comment, image)
+          if (running == 0) res.send({ status: false, text: "เพิ่มอาทิตย์ไม่สำเร็จ" })
+          if (running == 1) res.send({ status: true, text: "เพิ่มอาทิตย์สำเร็จ" })
+        }
+        main()
+      } else {
+        res.send({ status: false, text: "Login ก่อนทำการเขียนไดอรี่" })
+      }
+    }
+    mega_main()
+  } catch (error) {
+    res.send({ status: false, text: "Login ก่อนทำการเขียนไดอรี่" })
+  }
+})
+app.get('/api/diaries_add_image', (req, res, next) => {
+  let fuckcook = req.query.fuckcook
+  let ids = req.query.ids
+  let image = req.query.image
+  try {
+    async function mega_main() {
+      checking_true = await checking_user(fuckcook)
+      if (checking_true.status == 1) {
+        async function main() {
+          console.log(ids, image)
+          let running = await diaries_con.diaries_add_image(ids, image)
+          if (running == 0) res.send({ status: false, text: "เพิ่มอาทิตย์ไม่สำเร็จ" })
+          if (running == 1) res.send({ status: true, text: "เพิ่มอาทิตย์สำเร็จ" })
         }
         main()
       } else {

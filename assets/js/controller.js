@@ -127,8 +127,21 @@ var butt = {
         }
     }
 }
+setInterval(() => {
+    apps.checking_fk()
+}, 1000);
 let user_diaries
 var apps = {
+    checking_fk: () => {
+        $.get(route_address + '/api/checking_fk?' +
+            'fuckcook=' + getCookie("FUCKCOOK")
+            , function (data, textStatus, xhr) {
+                if (data.status) {
+                } else {
+                    setCookie("FUCKCOOK", "", 1)
+                }
+            })
+    },
     register: () => {
         let username = $('#reg_username').val();
         let pass1 = $('#reg_pass1').val();
@@ -185,7 +198,7 @@ var apps = {
         let at_text = $('#article_create_text').val();
         let new_text = at_text.replace(/(\r\n|\n|\r)/gm, "");
         console.log(at_title)
-        $.get(route_address + '/api/article_create?fuckcook=' + getCookie("FUCKCOOK") + '&title=' + at_title + '&type=' + at_type + '&image=' + at_image + '&text=' + new_text, function (data, textStatus, xhr) {
+        $.post(route_address + '/api/article_create', { fuckcook: getCookie("FUCKCOOK"), title: at_title, type: at_type, image: at_image, text: new_text }, function (data, textStatus, xhr) {
             if (data.status) {
                 document.getElementById("uploaders").submit();
                 toastem.show('success', "เขียนบทความเรียบร้อย");
@@ -252,14 +265,84 @@ var apps = {
         let diaries_bloom = $('#diaries_create_bloom').val();
         let diaries_seed_type = $('#diaries_seed_type').val();
         let diaries_image = $('#diaries_create_image').val().replace(/.*(\/|\\)/, '');
-        $.get(route_address + '/api/diaries_create?fuckcook=' + getCookie("FUCKCOOK") + '&title=' + diaries_title + '&strain=' + diaries_strain + '&breeder=' + diaries_breeder + '&indoor=' + diaries_type + '&light=' + diaries_light + '&watt=' + diaries_watt + '&medium=' + diaries_medium + '&veg=' + diaries_veg + '&bloom=' + diaries_bloom + '&image=' + diaries_image + '&seed_type=' + diaries_seed_type, function (data, textStatus, xhr) {
-            if (data.status) {
-                document.getElementById("uploaders").submit();
-                toastem.show('success', "สร้างไดอรี่ไม้เรียบร้อย");
-            } else {
-                toastem.show('danger', "กรุณาเข้าสู่ระบบก่อนสร้างไดอรี่ไม้");
-            }
-        });
+        $.get(route_address + '/api/diaries_create?' +
+            'fuckcook=' + getCookie("FUCKCOOK") +
+            '&title=' + diaries_title +
+            '&strain=' + diaries_strain +
+            '&breeder=' + diaries_breeder +
+            '&indoor=' + diaries_type +
+            '&light=' + diaries_light +
+            '&watt=' + diaries_watt +
+            '&medium=' + diaries_medium +
+            '&veg=' + diaries_veg +
+            '&bloom=' + diaries_bloom +
+            '&image=' + diaries_image +
+            '&seed_type=' + diaries_seed_type
+            , function (data, textStatus, xhr) {
+                if (data.status) {
+                    document.getElementById("uploaders").submit();
+                    toastem.show('success', "สร้างไดอรี่ไม้เรียบร้อย");
+                } else {
+                    toastem.show('danger', "กรุณาเข้าสู่ระบบก่อนสร้างไดอรี่ไม้");
+                }
+            });
+    },
+    diaries_add_week: () => {
+        let add_week_week = $('#add_week_week').val();
+        let add_week_stage = $('#add_week_stage').val();
+        let add_week_ec = $('#add_week_ec').val();
+        let add_week_ppm = $('#add_week_ppm').val();
+        let add_week_tech = $('#add_week_tech').val();
+        let add_week_hours = $('#add_week_hours').val();
+        let add_week_height = $('#add_week_height').val();
+        let add_week_temp = $('#add_week_temp').val();
+        let add_week_rh = $('#add_week_rh').val();
+        let add_week_pot = $('#add_week_pot').val();
+        let add_week_percent = $('#add_week_percent').val();
+        let add_week_comment = $('#add_week_comment').val();
+        let add_week_image = $('#add_week_image').val().replace(/.*(\/|\\)/, '');
+        $.get(route_address + '/api/diaries_add_week?'
+            + 'fuckcook=' + getCookie("FUCKCOOK")
+            + '&week=' + add_week_week
+            + '&stage=' + add_week_stage
+            + '&ec=' + add_week_ec
+            + '&ppm=' + add_week_ppm
+            + '&tech=' + add_week_tech
+            + '&hours=' + add_week_hours
+            + '&height=' + add_week_height
+            + '&temp=' + add_week_temp
+            + '&rh=' + add_week_rh
+            + '&pot=' + add_week_pot
+            + '&percent=' + add_week_percent
+            + '&comment=' + add_week_comment
+            + '&image=' + add_week_image
+            + '&ids=' + getUrlParameter('id')
+            , function (data, textStatus, xhr) {
+                if (data.status) {
+                    document.getElementById("add_week_upload").submit();
+                    toastem.show('success', "เพิ่มอาทิตย์เรียบร้อย");
+                } else {
+                    toastem.show('danger', "กรุณาเข้าสู่ระบบก่อนเพิ่มอาทิตย์");
+                }
+            });
+    },
+    diaries_add_image: () => {
+        let add_week_image = $('#add_week_add_image').val().replace(/.*(\/|\\)/, '');
+        $.get(route_address + '/api/diaries_add_image?'
+            + 'fuckcook=' + getCookie("FUCKCOOK")
+            + '&image=' + add_week_image
+            + '&ids=' + getUrlParameter('id')
+            , function (data, textStatus, xhr) {
+                if (data.status) {
+                    document.getElementById("add_week_upload3").submit();
+                    toastem.show('success', "เพิ่มรูปภาพเรียบร้อย");
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1000)
+                } else {
+                    toastem.show('danger', "กรุณาเข้าสู่ระบบก่อน");
+                }
+            });
     },
     diaries_reader: () => {
         $.get(route_address + '/api/diaries_read?id=' + getUrlParameter('id'), function (data, textStatus, xhr) {
@@ -326,9 +409,11 @@ var apps = {
                     if (i == 0) {
                         apps.diaries_info(items[i].week)
                     }
+                    let weeky = items[i].week
                     let color;
                     if (items[i].stage == 0) {
                         color = "info"
+                        weeky = "0"
                     } else if (items[i].stage == 1) {
                         color = "success"
                     } else if (items[i].stage == 2) {
@@ -341,22 +426,37 @@ var apps = {
                     div_item.setAttribute("style", "color:white;border:0px;")
                     div_item.setAttribute("onclick", "apps.diaries_info(" + items[i].week + ")")
                     div_item.innerHTML = `<span>WEEK</span><br>
-                        <span style="font-size:30px;">`+ items[i].week + `</span>`;
+                        <span style="font-size:30px;">`+ weeky + `</span>`;
                     document.getElementById("weeker").append(div_item);
                 }
                 setTimeout(() => {
                     let div_item2 = document.createElement("button");
                     div_item2.setAttribute("class", "badge badge-pill badge-lg bg-gradient-primary")
                     div_item2.setAttribute("style", "color:white;border:0px;")
+                    div_item2.setAttribute("onclick", "$('#add_week').modal('show');")
                     div_item2.innerHTML = `<span>เพิ่มวิค</span><br>
                         <span style="font-size:30px;">+</span>`;
                     if (getCookie("usernames") == user_diaries) {
                         document.getElementById("weeker").append(div_item2);
+                        $('#modal_add_image').show();
+                        $('#modal_delete').show()
                     }
-                }, 2000);
+                }, 500);
             } else {
             }
         });
+    },
+    diaries_slider: (images) => {
+        for (var i = 1; i < images.length; i++) {
+            let div_item = document.createElement("li");
+            div_item.setAttribute("data-target", "#carouselExampleIndicators4")
+            div_item.setAttribute("data-slide-to", i)
+            document.getElementById("d_slide").append(div_item);
+            let div_item2 = document.createElement("div");
+            div_item2.setAttribute("class", "carousel-item")
+            div_item2.innerHTML = `<img class="img-v-center" src="/assets/user_upload/` + imager[i] + `" alt="">`
+            document.getElementById("d_slide2").append(div_item2);
+        }
     },
     diaries_info: (weeks) => {
         if (weeks == "") {
@@ -366,10 +466,32 @@ var apps = {
             if (data.status) {
                 document.getElementById("week_show").innerHTML = ``;
                 items = data.items[0];
+                imager = (items.image).split(",")
                 let div_item2 = document.createElement("div");
                 div_item2.setAttribute("class", "row")
-                div_item2.innerHTML = `<div class="col-md-6 text-center">
-                <img src="/assets/user_upload/fbsher3_2.png" style="max-height:350px;display: block; margin-left: auto; margin-right: auto;">
+                div_item2.innerHTML = `<div class="col-md-6" style="height:400px;overflow:hidden;">
+                <div id="carouselExampleIndicators4" class="carousel slide c-v-center" data-ride="carousel" style="margin-left: auto; margin-right: auto;">
+                    <ol class="carousel-indicators" id="d_slide">
+                        <li data-target="#carouselExampleIndicators4" data-slide-to="0" class="active"></li>
+                    </ol>
+                    <div class="carousel-inner" id="d_slide2">
+                        <div class="carousel-item active">
+                        <img class="img-v-center" src="/assets/user_upload/`+ imager[0] + `" alt="">
+                        </div>
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselExampleIndicators4" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleIndicators4" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+                <br>
+                <div class="text-center"><button id="modal_add_image" class="btn btn-success" onclick="$('#add_week_image2').modal('show');" display="none" >เพิ่มรูปภาพ</button>
+                <button id="modal_edit_week" class="btn btn-warning" onclick="$('#edit_week_modal').modal('show');" display="none" >แก้ไขอาทิตย์นี้</button>
+                <button id="modal_delete_week" class="btn btn-danger" onclick="$('#delete_week_modal').modal('show');" display="none" >ลบทั้งอาทิตย์นี้</button></div>
                 </div>
                 <div class="col-md-6">
                     <h2>Week `+ items.week + ` - เพาะเมล็ด</h2>
@@ -385,6 +507,9 @@ var apps = {
                     <b>ความคิดเห็นผู้ปลูก:</b> `+ items.comment + `<br>
                 </div>`;
                 document.getElementById("week_show").append(div_item2);
+                setTimeout(() => {
+                    apps.diaries_slider(imager)
+                }, 100);
             } else {
             }
         });
